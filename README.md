@@ -11,20 +11,22 @@ The objective of this project is to create a satellite that hovers in the air (b
 - Locked
 - Spinning
 
-These states are described more in the state machine sections in our documents.
-
-The satellite will be able to "understand" its own environments by different sensors.
+These states are described more in the state machine sections in our documents. The satellite will be able to "understand" its own environments by different sensors.
 
 The satellite will run Zephyr RTOS as the main operating system. The build system used is West.
 
 ### Requirements
 - Python 3
-- Zephyr RTOS
 - Zephyr SDK
+- West Build Tool
 - Bluetooth controller
-- Linux (please)
+- Linux/Mac (please)
+
+You can read more about Zephyr RTOS [here](https://docs.zephyrproject.org/latest/)
 
 ### Installation
+NB: If something isn't working, please read up here [docs](https://docs.zephyrproject.org/latest/develop/getting_started/index.html) as this is the official setup documentation for Zephyr.
+
 Install Python 3
 ```
 sudo apt-get install python3 (Ubuntu)
@@ -65,8 +67,16 @@ Update West
 west update
 ```
 
+Source & export the Zephyr env variables
+```
+source extern/zephyr/zephyr-env.sh
+west zephyr-export
+```
+
+
 ### Installing the Zephyr SDK
-Download the Zephyr SDK from entering the zephyr directory and running the following command
+You will be needing the Zephyr SDK (toolchain) to compile and run Zephyr applications on your computer (or QEMU emul).
+Download the Zephyr SDK from entering the zephyr directory and running the following command.
 ```
 cd zephyr
 west sdk install
@@ -75,14 +85,14 @@ west sdk install
 ### Building the project (MacOS)
 ```
 rm -rf build
-west build -t -s clean
+west build -t clean
 west build -b qemu_x86 app/
 ```
 
 ### Building the project (Linux)
 ```
 rm -rf build
-west build -t -s clean
+west build -t clean
 west build -b native_posix app/
 ```
 
