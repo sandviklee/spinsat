@@ -1,0 +1,5 @@
+west:
+  command: /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/venv/bin/west
+    build -b native_posix app/
+  topdir: /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat
+  version: 1.3.0

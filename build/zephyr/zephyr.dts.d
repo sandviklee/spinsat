@@ -1,0 +1,19 @@
+/Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/build/zephyr/zephyr.dts.pre: \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/misc/empty_file.c \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/boards/native/native_posix/native_posix.dts \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/boards/native/native_posix/../native_sim/native_sim.dts \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/dts/posix/posix.dtsi \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/dts/common/skeleton.dtsi \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/dts/common/mem.h \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/include/zephyr/dt-bindings/adc/adc.h \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/include/zephyr/dt-bindings/dt-util.h \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/include/zephyr/sys/util_macro.h \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/include/zephyr/sys/util_internal.h \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/include/zephyr/sys/util_loops.h \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/include/zephyr/sys/util_listify.h \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/include/zephyr/sys/util_internal_is_eq.h \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/include/zephyr/sys/util_internal_util_inc.h \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/include/zephyr/sys/util_internal_util_dec.h \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/include/zephyr/sys/util_internal_util_x2.h \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/include/zephyr/dt-bindings/i2c/i2c.h \
+  /Users/sandviklee/Desktop/Repositories/sandviklee/spinsat/zephyr/include/zephyr/dt-bindings/gpio/gpio.h
