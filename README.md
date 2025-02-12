@@ -34,7 +34,14 @@ brew install python3 (MacOS)
 
 Clone the repository
 ```
-git clone https://github.com/sandviklee/spinsat.git
+git clone --recurse-submodules -j8 https://github.com/sandviklee/spinsat.git
+cd spinsat
+```
+
+Check that the zephyr sub-module is initialized (there should be content in the zephyr folder),
+if not
+```
+git submodule update --recursive --init
 ```
 
 Create and Source a Python environment
@@ -53,11 +60,6 @@ Install python packages for Zephyr
 pip install -r zephyr/scripts/requirements.txt
 ```
 
-Initialize West (Might not be necessary)
-```
-west init
-```
-
 Update West
 ```
 west update
@@ -69,3 +71,25 @@ Download the Zephyr SDK from entering the zephyr directory and running the follo
 cd zephyr
 west sdk install
 ```
+
+### Building the project (MacOS)
+```
+rm -rf build
+west build -t -s clean
+west build -b qemu_x86 app/
+```
+
+### Building the project (Linux)
+```
+rm -rf build
+west build -t -s clean
+west build -b native_posix app/
+```
+
+### Building the project (Dev kit)
+```
+rm -rf build
+west ...
+```
+
+### Running/Flashing the project
