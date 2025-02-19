@@ -59,7 +59,7 @@ pip install west
 
 Install python packages for Zephyr
 ```
-pip install -r zephyr/scripts/requirements.txt
+pip install -r extern/zephyr/scripts/requirements.txt
 ```
 
 Update West
@@ -78,7 +78,7 @@ west zephyr-export
 You will be needing the Zephyr SDK (toolchain) to compile and run Zephyr applications on your computer (or QEMU emul).
 Download the Zephyr SDK from entering the zephyr directory and running the following command.
 ```
-cd zephyr
+cd extern/zephyr
 west sdk install
 ```
 
@@ -99,7 +99,40 @@ west build -b native_posix app/
 ### Building the project (Dev kit)
 ```
 rm -rf build
-west ...
+west (todo)
 ```
 
 ### Running/Flashing the project
+
+```
+west build -t run
+```
+
+### Creating New Modules
+
+To create libraries for the project, you create a new folder in the directory `app/core/`. You then need to do the following:
+
+```
+touch <module_name>.c
+touch <module_name>.h
+printf 'add_module(<module_name> STATIC <module_name>.c)\ntarget_link_libraries(app PUBLIC <module_name>)' > CMakeLists.txt
+```
+
+You then need to update the `CMakeLists.txt` in the `app` folder to include the new module. You do this by adding the following lines:
+
+```
+add_subdirectory(core/<module_name>)
+target_link_libraries(app PRIVATE <module_name>)
+```
+
+then you can import your module in the main file by doing the following:
+
+```
+#include <module_name.h>
+
+int main() {
+    module_name_function(); // This works!
+    return 0;
+}
+
+```
