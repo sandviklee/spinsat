@@ -1,10 +1,14 @@
+#include "state_machine.h"
 #include "zephyr/sys/printk.h"
-#include <example.h>
+#include <stdint.h>
 
-int main(int argc, char *argv[]) {
-  char *name = "Zephyr";
-  uint8_t result = example(1, 2);
-  printk("Hello World! %s\n", name);
-  printk("Result: %d\n", result);
+int main() {
+  char *os = "Zephyr";
+  printk("%s: Starting State Machine... \n", os);
+  state_machine_t state_machine = {
+      .running = true,
+      .state = IDLE,
+  };
+  state_machine_init(&state_machine);
   return 0;
 }
