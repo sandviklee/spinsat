@@ -19,7 +19,7 @@ void fetch_and_display(const struct device*){
   prinf("Accel Y: %d\n", data.acc[1]);
   prinf("Accel Z: %d\n", data.acc[2]);
   //Maybe change mode of something after this
-
+  return;
 }
 
 
