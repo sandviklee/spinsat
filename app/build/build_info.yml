@@ -1,0 +1,5 @@
+west:
+  command: /Users/Eier/Documents/NTNU/8Semester_Elsys/EIT/SpinSat_2/spinsat/.venv/bin/west
+    build -t clean
+  topdir: /Users/Eier/Documents/NTNU/8Semester_Elsys/EIT/SpinSat_2/spinsat
+  version: 1.3.0

@@ -7,5 +7,3 @@ target_include_directories(app PRIVATE core)
 
 add_subdirectory(core)
 target_link_libraries(app PRIVATE core_lib)
-
-zephyr_library_sources(example.c IMU.c)
