@@ -23,4 +23,6 @@ __pycache__/
 
 
 #build dir
+app/build/
+
 
