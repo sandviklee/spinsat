@@ -18,3 +18,5 @@ __pycache__/
 # west
 /modules*
 .cache*
+
+.DS_Store
