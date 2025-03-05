@@ -108,27 +108,25 @@ west (todo)
 west build -t run
 ```
 
-### Creating New Modules
+### Creating New Modules/Libraries
 
-To create libraries for the project, you create a new folder in the directory `app/core/`. You then need to do the following:
+To create libraries for the project, you create your module in the directory `app/core/`. You then need to do the following:
 
 ```
 touch <module_name>.c
 touch <module_name>.h
-printf 'add_module(<module_name> STATIC <module_name>.c)\ntarget_link_libraries(app PUBLIC <module_name>)' > CMakeLists.txt
 ```
 
-You then need to update the `CMakeLists.txt` in the `app` folder to include the new module. You do this by adding the following lines:
+
+You then need to update the `CMakeLists.txt` in the `core` folder to include the new module. You do this by adding the following lines:
+```
+zephyr_library_sources(example.c <module_name>.c)
+```
+
+then you can import your module in the main file or other modules by doing the following:
 
 ```
-add_subdirectory(core/<module_name>)
-target_link_libraries(app PRIVATE <module_name>)
-```
-
-then you can import your module in the main file by doing the following:
-
-```
-#include <module_name.h>
+#include "module_name.h"
 
 int main() {
     module_name_function(); // This works!
