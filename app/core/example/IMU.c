@@ -6,8 +6,8 @@
 
  #define DT_DRV_COMPAT st_lsm9ds1
 
- #include <drivers/sensor.h>
- #include <logging/log.h>
+//  #include <drivers/sensor.h>
+//  #include <logging/log.h>
  
  #include "modules/hal/st/sensor/stmemsc/lsm9ds1_STdC/driver/lsm9ds1_reg.h"
  #include "drivers/sensor/st/stmemsc/stmemsc.h" 
