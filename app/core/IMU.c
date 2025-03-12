@@ -10,7 +10,7 @@
 //  #include <logging/log.h>
  
  #include "lsm9ds1_reg.h"
- #include "zephyr/drivers/sensor/st/stmemsc/stmemsc.h" 
+ #include <hal/st/sensor/stmemsc/stmemsc.h>
  #include <stdlib.h>
  
  LOG_MODULE_REGISTER(LSM9DS1, CONFIG_SENSOR_LOG_LEVEL);

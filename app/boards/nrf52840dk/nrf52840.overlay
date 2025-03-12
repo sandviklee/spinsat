@@ -1,0 +1,11 @@
+&i2c1 {
+    status = "okay";
+    lsm9ds1: lsm9ds1@6b {
+        compatible = "st,lsm9ds1";
+        reg = <0x6b>;
+        status = "okay";
+        accel-range = <2>;
+        imu-odr = <3>;
+        gyro-range = <1>;
+    };
+};

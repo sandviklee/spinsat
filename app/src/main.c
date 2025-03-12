@@ -31,6 +31,6 @@ int main(int argc, char *argv[]) {
     return -ENODEV;
   }
   printk("Device %s is ready\n", lsm9ds1_dev->name);
-  fetch_and_display(lsm9ds1_dev);
+  // fetch_and_display(lsm9ds1_dev);
   return 0;
 }
