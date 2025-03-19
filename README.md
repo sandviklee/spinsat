@@ -3,7 +3,7 @@
 <p align="center">
  <a href="#intro">Introduction</a> •
  <a href="#started">Getting Started</a> •
-    <a href="#comments">Comments</a>
+ <a href="#third-party">Third Party Libraries/Drivers</a>
 </p>
 
 <p align="center">
@@ -39,6 +39,7 @@ environment. Follow the official
 [Zephyr Getting Started Guide](https://docs.zephyrproject.org/latest/getting_started/index.html).
 
 <h3 id="pre">Prerequisites</h3>
+
 - Python 3 <
 - Zephyr SDK
 - West Build Tool
@@ -50,7 +51,7 @@ To get started with this project, you will need to follow the Zephyr getting sta
 You can read more about the west manifest [here](https://docs.zephyrproject.org/latest/develop/west/manifest.html)
 
 ```shell
-west init -m https://github.com/sandviklee/spinsat.git --mr main spinsat
+west init -m https://github.com/sandviklee/spinsat --mr main spinsat
 cd spinsat
 west update
 ```
