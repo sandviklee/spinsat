@@ -152,6 +152,11 @@ add_subdirectory_ifdef(CONFIG_<FLAG> <lib_name>)
 
 At last you configure the header file in the /include/app/lib/<lib_name>.h file.
 
+To enable this library in the project, you need to add the configuration flag to the prj.conf file in the app folder.
+
+```txt
+CONFIG_<FLAG>=y
+```
 
 <h3 id="driv">Adding a Driver</h3>
 
