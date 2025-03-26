@@ -13,10 +13,4 @@ manifest:
     - name: zephyr
       remote: zephyrproject-rtos
       revision: main
-      import:
-        # By using name-allowlist we can clone only the modules that are
-        # strictly needed by the application.
-        name-allowlist:
-          - cmsis      # required by the ARM port
-          - hal_nordic # required by the custom_plank board (Nordic based)
-          - hal_stm32  # required by the nucleo_f302r8 board (STM32 based)
+      import: true
