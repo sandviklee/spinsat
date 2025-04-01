@@ -1,9 +1,12 @@
-#ifndef _STATE_MACHINE_H
+/*
+ * Copyright (c) 2025 NTNU EiT - TTK4852
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-#define _STATE_MACHINE_H
+#ifndef APP_LIB_STATE_MACHINE_H
+#define APP_LIB_STATE_MACHINE_H
 
 #include <stdint.h>
-#include <time.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -16,6 +19,7 @@ typedef enum {
 
 typedef enum {
   STATE_OFF,
+  STATE_INIT,
   STATE_IDLE,
   STATE_HOLD,
   STATE_SPIN_LEFT,
@@ -24,11 +28,11 @@ typedef enum {
 
 typedef struct {
   void *data;
-  time_t time_stamp;
+  int64_t time_stamp;
 } state_machine_ctx;
 
 typedef struct {
-  state_t old_state;
+  state_t last_state;
   state_t current_state;
   event_t event;
 
@@ -39,5 +43,6 @@ uint8_t state_machine_init(state_machine *sm, state_t s);
 uint8_t state_machine_handle(state_machine *sm);
 uint8_t state_machine_ctx_destroy(state_machine *sm);
 state_machine_ctx *_state_machine_ctx_init(void *data);
+void _power_off(void);
 
-#endif // !_STATE_MACHINE_H
+#endif // !APP_LIB_STATE_MACHINE_H
