@@ -32,6 +32,7 @@ imu_context_t *imu_init(const struct device *dev) {
   ret = sensor_attr_set(dev, SENSOR_CHAN_GYRO_XYZ,
                         SENSOR_ATTR_SAMPLING_FREQUENCY, &odr_val);
   if (ret) {
+    LOG_ERR("Failed to set gyro ODR: %d", ret);
     k_free(ctx);
     return NULL;
   }
@@ -40,17 +41,20 @@ imu_context_t *imu_init(const struct device *dev) {
   ret = sensor_attr_set(dev, SENSOR_CHAN_ACCEL_XYZ,
                         SENSOR_ATTR_SAMPLING_FREQUENCY, &odr_val);
   if (ret) {
+    LOG_ERR("Failed to set accel ODR: %d", ret);
     k_free(ctx);
     return NULL;
   }
 
   odr_val.val1 = CONFIG_IMU_MAG_ODR;
-  ret = sensor_attr_set(dev, SENSOR_CHAN_MAGN_XYZ,
-                        SENSOR_ATTR_SAMPLING_FREQUENCY, &odr_val);
-  if (ret) {
-    k_free(ctx);
-    return NULL;
-  }
+  //TODO: Uncomment when magnetometer is available if needed
+  // ret = sensor_attr_set(dev, SENSOR_CHAN_MAGN_XYZ,
+  //                       SENSOR_ATTR_SAMPLING_FREQUENCY, &odr_val);
+  // if (ret) {
+  //   LOG_ERR("Failed to set mag ODR: %d", ret);
+  //   k_free(ctx);
+  //   return NULL;
+  // }
 
   LOG_INF("IMU initialized with gyro=%u Hz, accel=%u Hz, mag=%u Hz",
           CONFIG_IMU_GYRO_ODR, CONFIG_IMU_ACCEL_ODR, CONFIG_IMU_MAG_ODR);
