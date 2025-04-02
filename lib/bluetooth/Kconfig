@@ -1,0 +1,4 @@
+config BLUETOOTH
+	bool "Support for bluetooth library"
+	help
+	  This option enables the 'bluetooth' library
