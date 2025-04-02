@@ -17,7 +17,7 @@ int main(void) {
 
   // Initialize IMU with dynamic allocation
   imu_context_t *imu =
-      imu_init(dev, 119, 119, 10); // Gyro: 119 Hz, Accel: 119 Hz, Mag: 10 Hz
+      imu_init(dev); // Gyro: 119 Hz, Accel: 119 Hz, Mag: 10 Hz
   if (imu == NULL) {
     LOG_ERR("IMU initialization failed");
     return -ENOMEM;
