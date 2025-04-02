@@ -1,7 +1,8 @@
 #include <app/lib/imu.h>
 #include <zephyr/kernel.h>
-#include <zephyr/drivers/sensor.h>
+#include <zephyr/logging/log.h>
 
+LOG_MODULE_REGISTER(imu, CONFIG_APP_LOG_LEVEL);
 
 imu_context_t *imu_init(const struct device *dev) {
   imu_context_t *ctx = k_malloc(sizeof(imu_context_t));
@@ -86,7 +87,7 @@ int imu_calibrate_gyro(imu_context_t *ctx, int samples) {
 
   return 0;
 }
-int imu_read_gyro(im recuerdo_context_t *ctx, vector3d_t *data) {
+int imu_read_gyro(imu_context_t *ctx, vector3d_t *data) {
   struct sensor_value val_x, val_y, val_z;
   int ret = sensor_sample_fetch_chan(ctx->dev, SENSOR_CHAN_GYRO_XYZ);
   if (ret)
@@ -99,5 +100,14 @@ int imu_read_gyro(im recuerdo_context_t *ctx, vector3d_t *data) {
   data->x = sensor_value_to_double(&val_x) - ctx->gyro_offsets.x;
   data->y = sensor_value_to_double(&val_y) - ctx->gyro_offsets.y;
   data->z = sensor_value_to_double(&val_z) - ctx->gyro_offsets.z;
+  return 0;
+}
+
+int imu_deinit(imu_context_t *ctx) {
+  if (ctx == NULL) {
+    return -EINVAL;
+  }
+
+  k_free(ctx);
   return 0;
 }
