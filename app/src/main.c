@@ -3,44 +3,54 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <app_version.h>
-#include <zephyr/drivers/sensor.h>
-#include <zephyr/kernel.h>
-#include <zephyr/logging/log.h>
-
-LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
-
-static void fetch_and_display(const struct device *dev) {
-  struct sensor_value x, y, z;
-  static int trig_ctn;
-
-  // lsm9ds1 accel
-  sensor_sample_fetch_chan(dev, SENSOR_CHAN_ACCEL_XYZ);
-  sensor_channel_get(dev, SENSOR_CHAN_ACCEL_X, &x);
-  sensor_channel_get(dev, SENSOR_CHAN_ACCEL_Y, &y);
-  sensor_channel_get(dev, SENSOR_CHAN_ACCEL_Z, &z);
-
-  LOG_INF("accel: x:%f ms/2 y:%f ms/2 z:%f ms/2\n", (double)out_ev(&x),
-          (double)out_ev(&y), (double)out_ev(&z));
-}
-
-int main(void) {
-  const struct device *dev = DEVICE_DT_GET_ANY(st_lsm9ds1);
-
-  if (dev == NULL) {
-    LOG_ERR("No LSM9DS1 device found");
-    return 0;
-  }
-
-  if (!device_is_ready(dev)) {
-    LOG_ERR("Device %s is not ready\n", dev->name);
-    return 0;
-  }
-
-  for (;;) {
-    fetch_and_display(dev);
-    k_msleep(1000);
-  }
-
-  return 0;
-}
+ #include <app_version.h>
+ #include <zephyr/drivers/sensor.h>
+ #include <zephyr/kernel.h>
+ #include <zephyr/logging/log.h>
+ #include <zephyr/device.h>
+ #include "app/lib/imu.h"
+ LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
+ 
+ 
+ void rotateFunction(){
+   //Check for blutooth signal -> start rotation
+   //ReadData
+   //StartRotateFucntion(Starting rotation and read agnelvelocity calculate how far we have traveled
+   //and stop when we are at the target angle(minus some margin)))
+ }
+ 
+ int main(void) {
+     const struct device *dev = DEVICE_DT_GET(DT_NODELABEL(lsm9ds1));
+     vector3d_t gyro_data;
+ 
+     // Initialize IMU with dynamic allocation
+     imu_context_t *imu = imu_init(dev, 119, 119, 10); // Gyro: 119 Hz, Accel: 119 Hz, Mag: 10 Hz
+     if (imu == NULL) {
+         LOG_ERR("IMU initialization failed");
+         return -ENOMEM;
+     }
+ 
+     // Calibrate gyroscope
+     int ret = imu_calibrate_gyro(imu, 100);
+     if (ret) {
+         LOG_ERR("Gyro calibration failed: %d", ret);
+         imu_deinit(imu);
+         return ret;
+     }
+ 
+     // Main loop: Read and print gyro data
+     while (1) {
+         ret = imu_read_gyro(imu, &gyro_data);
+         if (ret) {
+             LOG_ERR("Gyro read failed: %d", ret);
+         } else {
+             printk("Gyro (x, y, z) = (%f, %f, %f)\n", 
+                    gyro_data.x, gyro_data.y, gyro_data.z);
+         }
+         k_sleep(K_MSEC(500));
+     }
+ 
+     // Cleanup (unreachable in this loop, but good practice)
+     imu_deinit(imu);
+     return 0;
+ }
