@@ -1,0 +1,48 @@
+# Copyright (c) 2025 NTNU EiT - TTK4852
+# SPDX-License-Identifier: Apache-2.0
+
+config IMU
+    bool "Support for the IMU (LSM9DS1)"
+    default n
+    help
+        This option enables the IMU API library for the LSM9DS1 sensor, providing
+        access to gyroscope, accelerometer, and magnetometer data.
+
+config IMU_GYRO_ODR
+    int "Gyroscope output data rate (Hz)"
+    depends on IMU
+    default 119
+    range 10 952
+    help
+        Sets the sampling frequency for the gyroscope in Hz. Supported values
+        for the LSM9DS1 are typically 10, 20, 40, 80, 119, 238, 476, 952 Hz,
+        depending on the driver configuration.
+
+config IMU_ACCEL_ODR
+    int "Accelerometer output data rate (Hz)"
+    depends on IMU
+    default 119
+    range 10 952
+    help
+        Sets the sampling frequency for the accelerometer in Hz. Supported values
+        for the LSM9DS1 are typically 10, 20, 40, 80, 119, 238, 476, 952 Hz,
+        depending on the driver configuration.
+
+config IMU_MAG_ODR
+    int "Magnetometer output data rate (Hz)"
+    depends on IMU
+    default 10
+    range 0 80
+    help
+        Sets the sampling frequency for the magnetometer in Hz. Supported values
+        for the LSM9DS1 are typically 0.625, 1.25, 2.5, 5, 10, 20, 40, 80 Hz.
+
+config IMU_CALIBRATION_SAMPLES
+    int "Number of samples for IMU calibration"
+    depends on IMU
+    default 100
+    range 10 1000
+    help
+        Specifies the number of samples to average during gyroscope and
+        accelerometer calibration to compute offsets. Higher values improve
+        accuracy but increase calibration time.
