@@ -9,8 +9,9 @@
 #include <zephyr/logging/log.h>
 
 LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
+
 int main(void) {
-  LOG_INF("Spinsat Starting...  - %s\n", APP_VERSION_STRING);
+  LOG_INF("SPINSAT VERSION - %s - STARTING\n", APP_VERSION_STRING);
 
   state_machine sm;
   state_machine_init(&sm, STATE_INIT);
@@ -20,7 +21,5 @@ int main(void) {
     k_sleep(K_MSEC(1000));
   }
 
-  // Cleanup (unreachable in this loop, but good practice)
-  imu_deinit(imu);
   return 0;
 }
