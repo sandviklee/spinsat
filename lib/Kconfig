@@ -5,5 +5,7 @@ menu "Custom libraries"
 
 rsource "custom/Kconfig"
 rsource "bluetooth/Kconfig"
+rsource "state_machine/Kconfig"
+rsource "imu/Kconfig"
 
 endmenu

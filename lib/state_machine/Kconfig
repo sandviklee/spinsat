@@ -1,0 +1,16 @@
+# Copyright (c) 2025 NTNU EiT - TTK4852
+# SPDX-License-Identifier: Apache-2.0
+
+
+config STATE_MACHINE
+	bool "Support for the state machine"
+	help
+	  This option enables the 'custom' library
+
+
+config STATE_MACHINE_START_STATE
+	int "Which state the state machine should start in"
+	depends on STATE_MACHINE
+	default 0
+	help
+    This option specifies the state machine starting state for debugging purposes.

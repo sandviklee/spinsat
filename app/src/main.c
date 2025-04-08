@@ -3,27 +3,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <app/lib/bluetooth.h>
+#include "app/lib/state_machine.h"
 #include <app_version.h>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 
 LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
-
-void state_machine_write(uint8_t state, uint8_t *data, uint16_t len) {
-  LOG_INF("State machine write: %d, len: %d", state, len);
-}
-
 int main(void) {
-  LOG_INF("Hello World! %s\n", APP_VERSION_STRING);
+  LOG_INF("Spinsat Starting...  - %s\n", APP_VERSION_STRING);
 
-  callbacks_t *callbacks = callback_init(state_machine_write);
+  state_machine sm;
+  state_machine_init(&sm, STATE_INIT);
 
-  int8_t err = bluetooth_init(callbacks);
-  if (err) {
-    LOG_ERR("Bluetooth init failed: %d", err);
-    return err;
+  for (;;) {
+    state_machine_handle(&sm);
+    k_sleep(K_MSEC(1000));
   }
 
+  // Cleanup (unreachable in this loop, but good practice)
+  imu_deinit(imu);
   return 0;
 }
