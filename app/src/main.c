@@ -13,11 +13,8 @@ LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
 int main(void) {
   LOG_INF("SPINSAT VERSION - %s - STARTING\n", APP_VERSION_STRING);
 
-  state_machine sm;
-  state_machine_init(&sm, STATE_INIT);
-
   for (;;) {
-    state_machine_handle(&sm);
+    state_machine_handle();
     k_sleep(K_MSEC(1000));
   }
 
