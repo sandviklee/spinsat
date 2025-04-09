@@ -43,6 +43,7 @@ environment. Follow the official
 - Python 3 <
 - Zephyr SDK
 - West Build Tool
+- NRF Command Line Tools
 - Linux/Mac (please)
 
 <h3 id="pre">Setup</h3>
@@ -74,10 +75,28 @@ command:
 west build -b $BOARD app -- -DEXTRA_CONF_FILE=debug.conf
 ```
 
+in our case:
+
+```shell
+west build -b nrf52dk/nrf52832 app -- -DDTC_OVERLAYFILE="PATH_TO_BOARDS/nrf52832.overlay"
+```
+
 Once you have built the application, run the following command to flash it:
 
 ```shell
 west flash
+```
+
+if the board isn't detected, you can try to flash it directly to the correct pin:
+
+```shell
+nrfjprog --ids
+```
+
+will give the id of the board if detected.
+
+```shell
+west flash --runner nrfjprog --dev-id $id
 ```
 
 ### Testing
