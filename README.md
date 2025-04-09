@@ -60,20 +60,13 @@ west update
 <h3>Running</h3>
 
 ```shell
-cd example-application
+cd spinsat
 west build -b $BOARD app
 ```
 
 where `$BOARD` is the target board.
 
 You can use *qemu_x86* as a board to run the application (in emulation) in a QEMU environment.
-
-A sample debug configuration is also provided. To apply it, run the following
-command:
-
-```shell
-west build -b $BOARD app -- -DEXTRA_CONF_FILE=debug.conf
-```
 
 in our case:
 
