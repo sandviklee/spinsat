@@ -1,2 +1,2 @@
 zephyr_library()
-zephyr_library_sources(custom.c)
+zephyr_library_sources(bluetooth.c)
