@@ -20,6 +20,7 @@ typedef enum {
 typedef enum {
   STATE_OFF,
   STATE_INIT,
+  STATE_CONNECTING,
   STATE_IDLE,
   STATE_HOLD,
   STATE_SPIN_LEFT,
@@ -39,8 +40,8 @@ typedef struct {
   state_machine_ctx_t *ctx;
 } state_machine_t;
 
-uint8_t state_machine_init(state_t s);
-uint8_t state_machine_handle();
+uint8_t state_machine_init(void);
+uint8_t state_machine_handle(void);
 state_machine_ctx_t *_state_machine_ctx_init(void *data);
 
 void _state_machine_ctx_destroy(state_machine_t *sm);
