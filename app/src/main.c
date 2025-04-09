@@ -13,9 +13,19 @@ LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
 int main(void) {
   LOG_INF("SPINSAT VERSION - %s - STARTING\n", APP_VERSION_STRING);
 
+  int err = state_machine_init();
+  if (err) {
+    LOG_ERR("Failed to initialize state machine");
+    return err;
+  }
+
   for (;;) {
-    state_machine_handle();
-    k_sleep(K_MSEC(1000));
+    err = state_machine_handle();
+    if (err) {
+      LOG_ERR("State machine handle failed: %d", err);
+      return err;
+    }
+    k_sleep(K_MSEC(100));
   }
 
   return 0;
