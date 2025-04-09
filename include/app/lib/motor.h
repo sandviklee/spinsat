@@ -11,22 +11,20 @@
 extern "C" {
 #endif
 
+/*
+ * Check the simulations folder in root for a description of these magic
+ * numbers.
+ */
+
 #define REAL_PULSE_MIN 1070
 #define REAL_PULSE_MAX 1300
 #define PULSE_RESET 1000
 
 #define DEFAULT_MOTOR_SPIN_PERCENTAGE 60
 
-typedef enum {
-  NOTHING,
-  FORWARD,
-  REVERSE
-} direction_t;
+typedef enum { NOTHING, FORWARD, REVERSE } direction_t;
 
-typedef enum {
-  FALSE,
-  TRUE
-} bool_t;
+typedef enum { FALSE, TRUE } bool_t;
 
 typedef struct {
   bool_t pwr;
