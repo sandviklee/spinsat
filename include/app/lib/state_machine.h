@@ -44,6 +44,6 @@ uint8_t state_machine_handle();
 state_machine_ctx_t *_state_machine_ctx_init(void *data);
 
 void _state_machine_ctx_destroy(state_machine_t *sm);
-void _power_off(void);
+void _state_machine_shutdown(void);
 
 #endif // !APP_LIB_STATE_MACHINE_H

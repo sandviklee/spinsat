@@ -28,7 +28,7 @@ state_machine_ctx_t *_state_machine_ctx_init(void *data) {
   return p_ctx;
 }
 
-void _state_machine_ctx_destroy(state_machine *sm) {
+void _state_machine_ctx_destroy(state_machine_t *sm) {
   if (sm->ctx != NULL) {
     k_free(sm->ctx);
   }
@@ -114,9 +114,8 @@ uint8_t state_machine_handle() {
   return 0;
 }
 
-void _power_off(void) {
-  // TODO: Impl. checks for safe power _power_off
-  // - Check if all storage procedures have been finished
+void _state_machine_shutdown(void) {
+  // TODO: Implement the shutdown procedure
   _state_machine_ctx_destroy(sm);
   // sys_poweroff();
 
