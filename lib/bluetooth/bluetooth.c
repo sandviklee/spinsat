@@ -86,9 +86,6 @@ static ssize_t write_state(struct bt_conn *conn,
   return 0;
 }
 
-#define IDLE 0x03
-#define NO_DATA 0x00
-
 /**
  * @brief Callback function for when a connection is established.
  *

@@ -25,6 +25,9 @@
 #define BT_UUID_SPINSAT BT_UUID_DECLARE_128(BT_UUID_SPINSAT_VAL)
 #define BT_UUID_SPINSAT_STATE BT_UUID_DECLARE_128(BT_UUID_SPINSAT_STATE_VAL)
 
+#define IDLE 0x03
+#define NO_DATA 0x00
+
 typedef struct {
   void (*connected)(struct bt_conn *conn, uint8_t err);
   void (*disconnected)(struct bt_conn *conn, uint8_t reason);
