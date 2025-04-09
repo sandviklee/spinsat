@@ -29,21 +29,21 @@ typedef enum {
 typedef struct {
   void *data;
   int64_t time_stamp;
-} state_machine_ctx;
+} state_machine_ctx_t;
 
 typedef struct {
   state_t last_state;
   state_t current_state;
   event_t event;
 
-  state_machine_ctx *ctx;
-} state_machine;
+  state_machine_ctx_t *ctx;
+} state_machine_t;
 
 uint8_t state_machine_init(state_t s);
 uint8_t state_machine_handle();
-state_machine_ctx *_state_machine_ctx_init(void *data);
+state_machine_ctx_t *_state_machine_ctx_init(void *data);
 
-void _state_machine_ctx_destroy(state_machine *sm);
+void _state_machine_ctx_destroy(state_machine_t *sm);
 void _power_off(void);
 
 #endif // !APP_LIB_STATE_MACHINE_H

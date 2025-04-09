@@ -13,13 +13,13 @@
 
 LOG_MODULE_REGISTER(state_machine_handle, CONFIG_APP_LOG_LEVEL);
 
-state_machine_ctx *_state_machine_ctx_init(void *data) {
-  state_machine_ctx *p_ctx =
-      (state_machine_ctx *)k_malloc(sizeof(state_machine_ctx));
+state_machine_ctx_t *_state_machine_ctx_init(void *data) {
+  state_machine_ctx_t *p_ctx =
+      (state_machine_ctx_t *)k_malloc(sizeof(state_machine_ctx_t));
   if (p_ctx == NULL) {
     LOG_ERR("Failed to allocate memory for state_machine_ctx\n");
   }
-  state_machine_ctx ctx = {
+  state_machine_ctx_t ctx = {
       .data = data,
       .time_stamp = k_uptime_get() / 1000,
   };
@@ -34,7 +34,7 @@ void _state_machine_ctx_destroy(state_machine *sm) {
   }
 }
 
-static state_machine *sm;
+static state_machine_t *sm;
 
 uint8_t state_machine_init(state_t s) {
   sm->last_state = CONFIG_STATE_MACHINE_START_STATE;
