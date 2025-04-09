@@ -23,8 +23,8 @@ typedef enum {
   STATE_CONNECTING,
   STATE_IDLE,
   STATE_HOLD,
-  STATE_SPIN_LEFT,
-  STATE_SPIN_RIGHT,
+  STATE_SPIN_FORWARD,
+  STATE_SPIN_REVERSE,
 } state_t;
 
 typedef struct {
