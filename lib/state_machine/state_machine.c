@@ -70,7 +70,7 @@ uint8_t state_machine_handle() {
 
   switch (sm->current_state) {
   case STATE_OFF:
-    _power_off();
+    _state_machine_shutdown();
     break;
   case STATE_INIT:
     LOG_INF("State: INIT\n");
