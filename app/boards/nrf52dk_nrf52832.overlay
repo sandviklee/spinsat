@@ -1,9 +1,0 @@
-&i2c0 {
-    status = "okay";
-    clock-frequency = <100000>;
-    lsm9ds1: lsm9ds1@6b {
-        compatible = "st,lsm9ds1";
-        reg = <0x6b>;
-        label = "LSM9DS1";
-    };
-};
