@@ -4,6 +4,7 @@
  */
 
 #include "app/lib/bluetooth.h"
+#include "app/lib/motor.h"
 #include <app/lib/state_machine.h>
 #include <stdint.h>
 #include <string.h>
@@ -126,24 +127,10 @@ uint8_t state_machine_handle() {
   switch (sm->current_state) {
   case STATE_OFF:
     LOG_INF("SHUTTING DOWN...\n");
-    gpio_pin_set_dt(&led1, 0);
-    gpio_pin_set_dt(&led2, 0);
     _state_machine_shutdown();
 
     break;
   case STATE_INIT:
-    LOG_INF("State: INIT\n");
-
-    sm->last_state = sm->current_state;
-    sm->current_state = STATE_CONNECTING;
-
-    callbacks_t *callbacks = callback_init(&state_machine_write);
-    int err = bluetooth_init(callbacks);
-    if (err) {
-      LOG_ERR("Bluetooth init failed1 (err %d)\n", err);
-      return -1;
-    }
-
     if (!gpio_is_ready_dt(&led1) || !gpio_is_ready_dt(&led2)) {
       LOG_ERR("GPIO is not ready\n");
       return -1;
@@ -164,44 +151,71 @@ uint8_t state_machine_handle() {
     gpio_pin_set_dt(&led1, 1);
     gpio_pin_set_dt(&led2, 0);
 
+    int8_t err;
+
+    err = motor_init();
+    if (err) {
+      LOG_ERR("Motor init failed (err %d)\n", err);
+      return -1;
+    }
+
+    callbacks_t *callbacks = callback_init(&state_machine_write);
+    err = bluetooth_init(callbacks);
+    if (err) {
+      LOG_ERR("Bluetooth init failed1 (err %d)\n", err);
+      return -1;
+    }
+
+    sm->last_state = sm->current_state;
+    sm->current_state = STATE_CONNECTING;
+
     break;
   case STATE_CONNECTING:
-    LOG_INF("State: CONNECTING\n");
 
     gpio_pin_toggle_dt(&led1);
     gpio_pin_toggle_dt(&led2);
 
     break;
   case STATE_IDLE:
-    if (sm->last_state == STATE_SPIN_LEFT ||
-        sm->last_state == STATE_SPIN_RIGHT) {
-      // motor_reset();
+    if (sm->last_state == STATE_SPIN_REVERSE ||
+        sm->last_state == STATE_SPIN_FORWARD) {
+        motor_reset();
     }
-    LOG_INF("State: IDLE\n");
+
     gpio_pin_toggle_dt(&led1);
     gpio_pin_set_dt(&led2, 0);
+
     break;
   case STATE_HOLD:
-    if (sm->last_state == STATE_SPIN_LEFT ||
-        sm->last_state == STATE_SPIN_RIGHT) {
-        // TODO: Implement the motor reset function...
+    if (sm->last_state == STATE_SPIN_REVERSE ||
+        sm->last_state == STATE_SPIN_FORWARD) {
+        motor_reset();
     }
     // TODO: Implement the PID Controller...
-    LOG_INF("State: HOLD\n");
+
     gpio_pin_set_dt(&led1, 0);
     gpio_pin_set_dt(&led2, 1);
     break;
-  case STATE_SPIN_LEFT:
-    LOG_INF("State: SPIN_LEFT\n");
-    // TODO : Implement the motor spin function
+  case STATE_SPIN_FORWARD:
     gpio_pin_set_dt(&led1, 1);
     gpio_pin_set_dt(&led2, 0);
+
+    err = motor_spin(FORWARD, DEFAULT_MOTOR_SPIN_PERCENTAGE); // TODO: USE DATA INSTEAD OF DEFAULT_MOTOR_SPIN
+    if (err) {
+      LOG_ERR("Motor spin failed (err %d)\n", err);
+      return -1;
+    }
+
     break;
-  case STATE_SPIN_RIGHT:
-    LOG_INF("State: SPIN_RIGHT\n");
-    // TODO : Implement the motor spin function
+  case STATE_SPIN_REVERSE:
     gpio_pin_set_dt(&led1, 1);
     gpio_pin_set_dt(&led2, 1);
+
+    err = motor_spin(REVERSE, DEFAULT_MOTOR_SPIN_PERCENTAGE); // TODO: USE DATA INSTEAD OF DEFAULT_MOTOR_SPIN
+    if (err) {
+      LOG_ERR("Motor spin failed (err %d)\n", err);       return -1;
+    }
+
     break;
   }
 
@@ -209,8 +223,12 @@ uint8_t state_machine_handle() {
 }
 
 void _state_machine_shutdown(void) {
-  // TODO: Implement the shutdown procedure
+  gpio_pin_set_dt(&led1, 0);
+  gpio_pin_set_dt(&led2, 0);
   _state_machine_ctx_destroy(sm);
-  bluetooth_deinit();
+  int8_t err = bluetooth_deinit();
+  if (err) {
+    LOG_ERR("Bluetooth deinit failed (err %d)\n", err);
+  }
   sys_poweroff();
 }
