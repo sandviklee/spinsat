@@ -33,7 +33,7 @@ typedef struct {
 } bluetooth_connection_t;
 
 typedef struct {
-  void (*state_machine_write)(uint8_t state, uint8_t *data, uint16_t len);
+  void (*state_machine_write)(int state, uint8_t *data, uint16_t len);
 } callbacks_t;
 
 int16_t bluetooth_init(callbacks_t *callbacks);

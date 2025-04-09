@@ -39,10 +39,11 @@ typedef struct {
   state_machine_ctx *ctx;
 } state_machine;
 
-uint8_t state_machine_init(state_machine *sm, state_t s);
-uint8_t state_machine_handle(state_machine *sm);
-uint8_t state_machine_ctx_destroy(state_machine *sm);
+uint8_t state_machine_init(state_t s);
+uint8_t state_machine_handle();
 state_machine_ctx *_state_machine_ctx_init(void *data);
+
+void _state_machine_ctx_destroy(state_machine *sm);
 void _power_off(void);
 
 #endif // !APP_LIB_STATE_MACHINE_H
