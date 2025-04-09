@@ -1,4 +1,4 @@
-# Copyright (c) 2021, Legrand North America, LLC.
+# Copyright (c) 2025 NTNU EiT - TTK4852
 # SPDX-License-Identifier: Apache-2.0
 
 zephyr_library()

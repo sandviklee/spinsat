@@ -1,3 +1,6 @@
+# Copyright (c) 2025 NTNU EiT - TTK4852
+# SPDX-License-Identifier: Apache-2.0
+
 config BLUETOOTH
 	bool "Support for bluetooth library"
 	help
