@@ -11,6 +11,6 @@ config STATE_MACHINE
 config STATE_MACHINE_START_STATE
 	int "Which state the state machine should start in"
 	depends on STATE_MACHINE
-	default 0
+	default 1
 	help
     This option specifies the state machine starting state for debugging purposes.

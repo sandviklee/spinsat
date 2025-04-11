@@ -69,7 +69,7 @@ uint8_t state_machine_init() {
   sm = &sm_i;
   memset(sm, 0, sizeof(state_machine_t));
   sm->last_state = STATE_OFF;
-  sm->current_state = STATE_INIT;
+  sm->current_state = CONFIG_STATE_MACHINE_START_STATE;
   sm->event = EVENT_OK;
   sm->ctx = _state_machine_ctx_init(NULL);
   if (sm->ctx == NULL) {
@@ -179,7 +179,7 @@ uint8_t state_machine_handle() {
   case STATE_IDLE:
     if (sm->last_state == STATE_SPIN_REVERSE ||
         sm->last_state == STATE_SPIN_FORWARD) {
-        motor_reset();
+      motor_reset();
     }
 
     gpio_pin_toggle_dt(&led1);
@@ -189,7 +189,7 @@ uint8_t state_machine_handle() {
   case STATE_HOLD:
     if (sm->last_state == STATE_SPIN_REVERSE ||
         sm->last_state == STATE_SPIN_FORWARD) {
-        motor_reset();
+      motor_reset();
     }
     // TODO: Implement the PID Controller...
 
@@ -200,7 +200,9 @@ uint8_t state_machine_handle() {
     gpio_pin_set_dt(&led1, 1);
     gpio_pin_set_dt(&led2, 0);
 
-    err = motor_spin(FORWARD, DEFAULT_MOTOR_SPIN_PERCENTAGE); // TODO: USE DATA INSTEAD OF DEFAULT_MOTOR_SPIN
+    err = motor_spin(FORWARD,
+                     DEFAULT_MOTOR_SPIN_PERCENTAGE); // TODO: USE DATA INSTEAD
+                                                     // OF DEFAULT_MOTOR_SPIN
     if (err) {
       LOG_ERR("Motor spin failed (err %d)\n", err);
       return -1;
@@ -211,9 +213,12 @@ uint8_t state_machine_handle() {
     gpio_pin_set_dt(&led1, 1);
     gpio_pin_set_dt(&led2, 1);
 
-    err = motor_spin(REVERSE, DEFAULT_MOTOR_SPIN_PERCENTAGE); // TODO: USE DATA INSTEAD OF DEFAULT_MOTOR_SPIN
+    err = motor_spin(REVERSE,
+                     DEFAULT_MOTOR_SPIN_PERCENTAGE); // TODO: USE DATA INSTEAD
+                                                     // OF DEFAULT_MOTOR_SPIN
     if (err) {
-      LOG_ERR("Motor spin failed (err %d)\n", err);       return -1;
+      LOG_ERR("Motor spin failed (err %d)\n", err);
+      return -1;
     }
 
     break;
