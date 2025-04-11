@@ -4,15 +4,20 @@
  */
 
 #include "app/lib/motor.h"
+#include <math.h>
+#include <stdint.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/pwm.h>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
-#include <zephyr/drivers/pwm.h>
-#include <stdint.h>
-#include <math.h>
 
 LOG_MODULE_REGISTER(motor, CONFIG_APP_LOG_LEVEL);
 
-static const struct pwm_dt_spec servo = PWM_DT_SPEC_GET(DT_NODELABEL(servo));
+#define SERVO_MOTOR_FORWARD DT_NODELABEL(servo_forward)
+#define SERVO_MOTOR_REVERSE DT_NODELABEL(servo_reverse)
+
+static const struct pwm_dt_spec servo_f = PWM_DT_SPEC_GET(SERVO_MOTOR_FORWARD);
+static const struct pwm_dt_spec servo_r = PWM_DT_SPEC_GET(SERVO_MOTOR_REVERSE);
 
 static motor_t motor;
 static motor_t *motor_ptr;
@@ -34,15 +39,21 @@ int8_t motor_init(void) {
   motor_ptr->pwr = FALSE;
   motor_ptr->dir = NOTHING;
 
-  if (!pwm_is_ready_dt(&servo)) {
-    LOG_ERR("Servo PWM is not ready");
+  if (!pwm_is_ready_dt(&servo_f)) {
+    LOG_ERR("Servo_f PWM is not ready");
+    return -1;
+  }
+
+  if (!pwm_is_ready_dt(&servo_r)) {
+    LOG_ERR("Servo_r PWM is not ready");
     return -1;
   }
 
   LOG_INF("Servo PWM is ready");
 
   _motor_turn_on();
-  pwm_set_pulse_dt(&servo, PULSE_RESET);
+  pwm_set_pulse_dt(&servo_f, PULSE_RESET);
+  pwm_set_pulse_dt(&servo_r, PULSE_RESET);
 
   LOG_INF("Stabilizing servo...");
 
@@ -77,8 +88,15 @@ int8_t motor_spin(direction_t dir, uint8_t pulse_percentage) {
     return -1;
   }
 
+  if (dir == NOTHING) {
+    LOG_ERR("Motor direction is not set.");
+    return -1;
+  }
+
   if (dir == FORWARD) {
-    pwm_set_pulse_dt(&servo, real_pulse);
+    pwm_set_pulse_dt(&servo_f, real_pulse);
+  } else if (dir == REVERSE) {
+    pwm_set_pulse_dt(&servo_r, real_pulse);
   }
 
   k_sleep(K_MSEC(500));
@@ -99,10 +117,10 @@ void motor_reset(void) {
   }
   motor_ptr->dir = NOTHING;
 
-  pwm_set_pulse_dt(&servo, PULSE_RESET);
-  k_sleep(K_SECONDS(1));
+  pwm_set_pulse_dt(&servo_f, PULSE_RESET);
+  pwm_set_pulse_dt(&servo_r, PULSE_RESET);
 
-  _motor_turn_on();
+  k_sleep(K_SECONDS(1));
 }
 
 /**
@@ -119,7 +137,9 @@ int32_t _motor_get_real_pulse(uint8_t pulse_percentage) {
     LOG_ERR("Invalid pulse percentage");
     return -1;
   }
-  int32_t real_pulse = floor(((REAL_PULSE_MAX - REAL_PULSE_MIN) / 100) * pulse_percentage) + REAL_PULSE_MIN;
+  int32_t real_pulse =
+      floor(((REAL_PULSE_MAX - REAL_PULSE_MIN) / 100) * pulse_percentage) +
+      REAL_PULSE_MIN;
   return real_pulse;
 }
 
