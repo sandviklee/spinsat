@@ -20,7 +20,7 @@ extern "C" {
 #define REAL_PULSE_MAX 1300
 #define PULSE_RESET 1000
 
-#define DEFAULT_MOTOR_SPIN_PERCENTAGE 60
+#define DEFAULT_MOTOR_SPIN_PERCENTAGE 15
 
 typedef enum { NOTHING, FORWARD, REVERSE } direction_t;
 
