@@ -1,0 +1,75 @@
+/* DEFINE SERVO FORWARD - Configure which pins pwm0 should use */
+/ {
+    servo_forward: servo_forward {
+        compatible = "pwm-servo";
+        pwms = <&pwm0 0 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
+        min-pulse = <PWM_USEC(1000)>;
+        max-pulse = <PWM_USEC(1300)>;
+    };
+};
+
+&pwm0 {
+    status = "okay";
+    pinctrl-0 = <&pwm0_custom_motor>;
+    pinctrl-1 = <&pwm0_csleep_motor>;
+    pinctrl-names = "default", "sleep";
+};
+
+&pinctrl {
+    pwm0_custom_motor: pwm0_custom_motor {
+        group1 {
+            psels = <NRF_PSEL(PWM_OUT0, 0, 3)>;
+            nordic,invert;
+        };
+    };
+
+    pwm0_csleep_motor: pwm0_csleep_motor {
+        group1 {
+            psels = <NRF_PSEL(PWM_OUT0, 0, 3)>;
+            nordic,invert;
+        };
+    };
+};
+
+/* DEFINE SERVO REVERSE - Configure which pins pwm1 should use */
+/ {
+    servo_reverse: servo_reverse {
+        compatible = "pwm-servo";
+        pwms = <&pwm1 0 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
+        min-pulse = <PWM_USEC(1000)>;
+        max-pulse = <PWM_USEC(1300)>;
+    };
+};
+
+&pwm1 {
+    status = "okay";
+    pinctrl-0 = <&pwm1_custom_motor>;
+    pinctrl-1 = <&pwm1_csleep_motor>;
+    pinctrl-names = "default", "sleep";
+};
+
+&pinctrl {
+    pwm1_custom_motor: pwm1_custom_motor {
+        group1 {
+            psels = <NRF_PSEL(PWM_OUT0, 0, 4)>;
+            nordic,invert;
+        };
+    };
+
+    pwm1_csleep_motor: pwm1_csleep_motor {
+        group1 {
+            psels = <NRF_PSEL(PWM_OUT0, 0, 4)>;
+            nordic,invert;
+        };
+    };
+};
+
+&i2c0 {
+    status = "okay";
+    clock-frequency = <100000>;
+    lsm9ds1: lsm9ds1@6b {
+        compatible = "st,lsm9ds1";
+        reg = <0x6b>;
+        label = "LSM9DS1";
+    };
+};
