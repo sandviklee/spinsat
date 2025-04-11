@@ -208,6 +208,8 @@ uint8_t state_machine_handle() {
       return -1;
     }
 
+    sm->last_state = STATE_SPIN_FORWARD;
+
     break;
   case STATE_SPIN_REVERSE:
     gpio_pin_set_dt(&led1, 1);
@@ -220,6 +222,8 @@ uint8_t state_machine_handle() {
       LOG_ERR("Motor spin failed (err %d)\n", err);
       return -1;
     }
+
+    sm->last_state = STATE_SPIN_REVERSE;
 
     break;
   }

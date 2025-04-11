@@ -88,14 +88,14 @@ int8_t motor_spin(direction_t dir, uint8_t pulse_percentage) {
     return -1;
   }
 
-  if (dir == NOTHING) {
+  if (motor_ptr->dir == NOTHING) {
     LOG_ERR("Motor direction is not set.");
     return -1;
   }
 
-  if (dir == FORWARD) {
+  if (motor_ptr->dir == FORWARD) {
     pwm_set_pulse_dt(&servo_f, real_pulse);
-  } else if (dir == REVERSE) {
+  } else if (motor_ptr->dir == REVERSE) {
     pwm_set_pulse_dt(&servo_r, real_pulse);
   }
 
